@@ -1,0 +1,8 @@
+insert into categoria values
+('00001', 'Comidas típicas', 'https://bit.ly/330amKQ'),
+('00002', 'Distracciones', 'https://bit.ly/3r01IEf'),
+('00003', 'Hospedaje', 'https://bit.ly/3q6eL7N'),
+('00004', 'Playas', 'https://bit.ly/3r7FqAy'),
+('00005', 'Publicidad', 'https://bit.ly/3tapTSV'),
+('00006', 'Restaurantes', 'https://bit.ly/3qXX8X6'),
+('00007', 'Sitios de interés', 'https://bit.ly/3q7E3lW');

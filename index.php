@@ -1,3 +1,13 @@
+<?php
+    require './config/config.php';
+    require './config/conexion.php';
+    $db = new Database();
+    $conexion = $db->conectarDB();
+    //Consulta preparada
+    $sql = $conexion->prepare("select id_categoria, nombre_categoria, imagen_categoria from categoria order by id_categoria");
+    $sql->execute();
+    $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -103,13 +113,14 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 p-0 d-flex justify-content-center">
                     <select class="form-control search-slt" id="selectCategory">
-                      <option hidden selected>Seleccione una categoría</option>
-                      <option>Ejemplo 1</option>
-                      <option>Ejemplo 2</option>
-                      <option>Ejemplo 3</option>
-                      <option>Ejemplo 4</option>
-                      <option>Ejemplo 5</option>
-                      <option>Ejemplo 6</option>
+                      <?php foreach($resultado as $row){ ?>
+                        <?php
+                          $id_categoria = $row['id_categoria'];
+                          $nombre_categoria = $row['nombre_categoria'];
+                        ?>
+                        <option hidden selected>Seleccione una categoría</option>
+                        <option value="<?php echo $id_categoria; ?>"><?php echo $nombre_categoria; ?></option>
+                      <?php } ?>
                     </select>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 p-0 d-flex justify-content-center">
@@ -129,81 +140,25 @@
       <div class="container">
         <!-- Categorías -->
         <div class="container">
-          <h1 class="mb-4" id="categorias">Categorías</h1>
+          <h1 class="mb-5" id="categorias">Categorías</h1>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             <!-- Card start -->
-            <div class="col">
-              <div class="card card-category">
-                <img src="./src/img/about.jpg">
-                <p class="txt-hidden">Ver detalles</p>
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
+            <?php foreach($resultado as $row){ ?>
+              <?php
+                $id_categoria = $row['id_categoria'];
+                $nombre_categoria = $row['nombre_categoria'];
+                $imagen_categoria = $row['imagen_categoria'];
+              ?>
+              <div class="col">
+                <div class="card card-category">
+                  <img src="<?php echo $imagen_categoria; ?>">
+                  <p class="txt-hidden" id-categoria="<?php echo $id_categoria; ?>" onclick="verCategoria(this)">Ver detalles</p>
+                  <div class="card-body d-flex justify-content-center">
+                    <h5><?php echo $nombre_categoria; ?></h5>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col">
-              <div class="card card-category">
-                <img src="./src/img/about.jpg">
-                <p class="txt-hidden">Ver detalles</p>
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card card-category">
-              <p class="txt-hidden">Ver detalles</p>
-                <img src="./src/img/about.jpg">
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card card-category">
-              <p class="txt-hidden">Ver detalles</p>
-                <img src="./src/img/about.jpg">
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card card-category">
-                <img src="./src/img/about.jpg">
-                <p class="txt-hidden">Ver detalles</p>
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card card-category">
-                <img src="./src/img/about.jpg">
-                <p class="txt-hidden">Ver detalles</p>
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card card-category">
-                <img src="./src/img/about.jpg">
-                <p class="txt-hidden">Ver detalles</p>
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card card-category">
-                <img src="./src/img/about.jpg">
-                <p class="txt-hidden">Ver detalles</p>
-                <div class="card-body d-flex justify-content-center">
-                  <h5>Categoría</h5>
-                </div>
-              </div>
-            </div>
+            <?php } ?>
             <!-- Cards end -->
           </div>
         </div>
@@ -309,7 +264,7 @@
         </div>
       </div>
       <!-- Footer -->
-      <footer class="bg-dark text-center text-white">
+      <footer class="bg-secondary text-center text-white">
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
           © 2020 Copyright:
@@ -360,12 +315,13 @@
   }
   .card-category > img,
   .img-about {
+    height: 150px;
     border-radius: 15px;
     box-shadow: 0px 20px 40px 0px rgb(0 0 0 / 30%);
   }
   .txt-hidden {
     border-radius: 15px;
-    padding: 96px 0; /* Mitad de la imagen */
+    padding: 75px 0; /* Mitad de la imagen */
     color: #fff;
     text-align: center;  
     background: #000;
@@ -450,3 +406,9 @@
     }
   }
 </style>
+<script>
+  function verCategoria(img) {
+    var id_categoria = img.getAttribute("id-categoria");
+    alert("Categoría: " + id_categoria);
+  }
+</script>
