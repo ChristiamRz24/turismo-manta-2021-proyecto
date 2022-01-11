@@ -1,10 +1,11 @@
 <?php
     require './config/config.php';
     require './config/conexion.php';
+    $id_imagen = 0; //Para cargar las imágenes de las diferentes categorías
     $db = new Database();
     $conexion = $db->conectarDB();
     //Consulta preparada
-    $sql = $conexion->prepare("select id_categoria, nombre_categoria, imagen_categoria from categoria order by id_categoria");
+    $sql = $conexion->prepare("select id_categoria, nombre_categoria from categoria order by id_categoria");
     $sql->execute();
     $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -65,7 +66,7 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="./src/img/bg-1.jpg" alt="">
+            <img src="./src/img/carrusel/muelle.jpg" alt="">
             <div class="container">
               <div class="carousel-caption text-start">
                 <h1>Example headline.</h1>
@@ -74,7 +75,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <img src="./src/img/bg-1.jpg" alt="">
+            <img src="./src/img/carrusel/playa.jpg" alt="">
             <div class="container">
               <div class="carousel-caption">
                 <h1>Another example headline.</h1>
@@ -83,7 +84,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <img src="./src/img/bg-1.jpg" alt="">
+            <img src="./src/img/carrusel/manta.jpg" alt="">
             <div class="container">
               <div class="carousel-caption text-end">
                 <h1>One more for good measure.</h1>
@@ -147,12 +148,16 @@
               <?php
                 $id_categoria = $row['id_categoria'];
                 $nombre_categoria = $row['nombre_categoria'];
-                $imagen_categoria = $row['imagen_categoria'];
+                $id_imagen = $id_imagen + 1;
+                $src = "./src/img/categorias/Categoria-" . "$id_imagen" . ".jpg";
               ?>
               <div class="col">
                 <div class="card card-category">
-                  <img src="<?php echo $imagen_categoria; ?>">
-                  <p class="txt-hidden" id-categoria="<?php echo $id_categoria; ?>" onclick="verCategoria(this)">Ver detalles</p>
+                  <img src="<?php echo $src; ?>">
+                  <a
+                    class="txt-hidden" id-categoria="<?php echo $id_categoria; ?>"
+                    href="./categorias.php?id=<?php echo $id_categoria; ?>&token=<?php echo hash_hmac('sha1', $id_categoria, KEY_TOKEN); ?>"
+                  >Ver Detalles</a>
                   <div class="card-body d-flex justify-content-center">
                     <h5><?php echo $nombre_categoria; ?></h5>
                   </div>
@@ -331,9 +336,11 @@
     right: 0;
     left: 0;
     opacity: 0;
+    text-decoration: none;
   }
   .txt-hidden:hover {
     opacity: .40;
+    color: #fff;
   }
   .img-about {
     width: 500px;

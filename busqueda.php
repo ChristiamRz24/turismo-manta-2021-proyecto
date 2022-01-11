@@ -16,7 +16,7 @@
       <header class="text-white header d-flex justify-content-center bg-secondary">
           <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-              <img src="../img/logo.png" alt="MANTA" width="120" onclick="goHome()" class="logo">
+              <img src="./src/img/logo.png" alt="MANTA" width="120" onclick="goHome()" class="logo">
               <div class="me-lg-auto"></div>
               <div class="text-end">
                 <!-- Facebook -->
@@ -48,7 +48,7 @@
       <div class="container mb-5">
         <div class="card row d-flex">
           <div class="bg-image hover-overlay ripple col-lg-3 col-md-12 d-flex flex-column     justify-content-center" data-mdb-ripple-color="light">
-            <img src="../img/about.jpg" alt="About" class="img-fluid mx-auto img-about imagen-general" width="500" height="500" role="img" focusable="false">
+            <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about imagen-general" width="500" height="500" role="img" focusable="false">
             <a href="#!">
               <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
             </a>

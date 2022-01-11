@@ -1,11 +1,11 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     9/1/2022 01:52:45                            */
+/* Created on:     10/1/2022 11:58:01                           */
 /*==============================================================*/
 
 --drop table CATEGORIA;
 --drop table COMIDAS_TIPICAS;
---drop table DISTRACCION;
+--drop table DISTRACCIONES;
 --drop table HOSPEDAJE;
 --drop table PLAYAS;
 --drop table PUBLICIDAD;
@@ -18,7 +18,6 @@
 create table CATEGORIA (
    ID_CATEGORIA         VARCHAR(5)           not null,
    NOMBRE_CATEGORIA     VARCHAR(50)          not null,
-   IMAGEN_CATEGORIA     VARCHAR(50)          not null,
    constraint PK_CATEGORIA primary key (ID_CATEGORIA)
 );
 
@@ -26,24 +25,24 @@ create table CATEGORIA (
 /* Table: COMIDAS_TIPICAS                                       */
 /*==============================================================*/
 create table COMIDAS_TIPICAS (
-   ID_COMIDA            VARCHAR(5)           not null,
+   ID_COMIDAS_TIPICAS   VARCHAR(5)           not null,
    ID_CATEGORIA         VARCHAR(5)           not null,
-   NOMBRE_COMIDA        VARCHAR(150)         not null,
-   DIRECCION_COMIDA     VARCHAR(200)         not null,
-   DESCRIPCION_COMIDA   VARCHAR(2000)        not null,
-   constraint PK_COMIDAS_TIPICAS primary key (ID_COMIDA)
+   NOMBRE_COMIDAS_TIPICAS VARCHAR(150)         not null,
+   DIRECCION_COMIDAS_TIPICAS VARCHAR(500)         not null,
+   DESCRIPCION_COMIDAS_TIPICAS VARCHAR(2000)        not null,
+   constraint PK_COMIDAS_TIPICAS primary key (ID_COMIDAS_TIPICAS)
 );
 
 /*==============================================================*/
-/* Table: DISTRACCION                                           */
+/* Table: DISTRACCIONES                                         */
 /*==============================================================*/
-create table DISTRACCION (
-   ID_DISTRACCION       VARCHAR(5)           not null,
+create table DISTRACCIONES (
+   ID_DISTRACCIONES     VARCHAR(5)           not null,
    ID_CATEGORIA         VARCHAR(5)           not null,
-   NOMBRE_DISTRACCION   VARCHAR(150)         not null,
-   DIRECCION_DISTRACCION VARCHAR(200)         not null,
-   DESCRIPCION_DISTRACCION VARCHAR(2000)        not null,
-   constraint PK_DISTRACCION primary key (ID_DISTRACCION)
+   NOMBRE_DISTRACCIONES VARCHAR(150)         not null,
+   DIRECCION_DISTRACCIONES VARCHAR(500)         not null,
+   DESCRIPCION_DISTRACCIONES VARCHAR(2000)        not null,
+   constraint PK_DISTRACCIONES primary key (ID_DISTRACCIONES)
 );
 
 /*==============================================================*/
@@ -53,20 +52,20 @@ create table HOSPEDAJE (
    ID_HOSPEDAJE         VARCHAR(5)           not null,
    ID_CATEGORIA         VARCHAR(5)           not null,
    NOMBRE_HOSPEDAJE     VARCHAR(150)         not null,
-   DIRECCION_HOSPEDAJE  VARCHAR(200)         not null,
-   DESCRIPTCION_HOSPEDAJE VARCHAR(2000)        not null
+   DIRECCION_HOSPEDAJE  VARCHAR(500)         not null,
+   DESCRIPCION_HOSPEDAJE VARCHAR(2000)        not null
 );
 
 /*==============================================================*/
 /* Table: PLAYAS                                                */
 /*==============================================================*/
 create table PLAYAS (
-   ID_PLAYA             VARCHAR(5)           not null,
+   ID_PLAYAS            VARCHAR(5)           not null,
    ID_CATEGORIA         VARCHAR(5)           not null,
-   NOMBRE_PLAYA         VARCHAR(150)         not null,
-   DIRECCION_PLAYA      VARCHAR(200)         not null,
-   DESCRIPCION_PLAYA    VARCHAR(2000)        not null,
-   constraint PK_PLAYAS primary key (ID_PLAYA)
+   NOMBRE_PLAYAS        VARCHAR(150)         not null,
+   DIRECCION_PLAYAS     VARCHAR(500)         not null,
+   DESCRIPCION_PLAYAS   VARCHAR(2000)        not null,
+   constraint PK_PLAYAS primary key (ID_PLAYAS)
 );
 
 /*==============================================================*/
@@ -84,23 +83,23 @@ create table PUBLICIDAD (
 /* Table: RESTAURANTES                                          */
 /*==============================================================*/
 create table RESTAURANTES (
-   ID_RESTAURANTE       VARCHAR(5)           not null,
+   ID_RESTAURANTES      VARCHAR(5)           not null,
    ID_CATEGORIA         VARCHAR(5)           not null,
-   NOMBRE_RESTAURANTE   VARCHAR(150)         not null,
-   DIRECCION_RESTAURANTE VARCHAR(200)         not null,
-   DESCRIPCION_RESTAURANTE VARCHAR(2000)        not null,
-   constraint PK_RESTAURANTES primary key (ID_RESTAURANTE)
+   NOMBRE_RESTAURANTES  VARCHAR(150)         not null,
+   DIRECCION_RESTAURANTES VARCHAR(500)         not null,
+   DESCRIPCION_RESTAURANTES VARCHAR(2000)        not null,
+   constraint PK_RESTAURANTES primary key (ID_RESTAURANTES)
 );
 
 /*==============================================================*/
 /* Table: SITIOS_DE_INTERES                                     */
 /*==============================================================*/
 create table SITIOS_DE_INTERES (
-   ID_SITIO             VARCHAR(5)           not null,
+   ID_SITIOS_DE_INTERES VARCHAR(5)           not null,
    ID_CATEGORIA         VARCHAR(5)           not null,
-   NOMBRE_SITIO         VARCHAR(150)         not null,
-   DIRECCION_SITIO      VARCHAR(200)         not null,
-   DESCRIPCION_SITIO    VARCHAR(2000)        not null
+   NOMBRE_SITIOS_DE_INTERES VARCHAR(150)         not null,
+   DIRECCION_SITIOS_DE_INTERES VARCHAR(500)         not null,
+   DESCRIPCION_SITIOS_DE_INTERES VARCHAR(2000)        not null
 );
 
 alter table COMIDAS_TIPICAS
@@ -108,7 +107,7 @@ alter table COMIDAS_TIPICAS
       references CATEGORIA (ID_CATEGORIA)
       on delete restrict on update restrict;
 
-alter table DISTRACCION
+alter table DISTRACCIONES
    add constraint FK_DISTRACC_RELATIONS_CATEGORI foreign key (ID_CATEGORIA)
       references CATEGORIA (ID_CATEGORIA)
       on delete restrict on update restrict;

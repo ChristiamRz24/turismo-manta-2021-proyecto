@@ -1,9 +1,55 @@
+<?php
+    require './config/config.php';
+    require './config/conexion.php';
+    $db = new Database();
+    $conexion = $db->conectarDB();
+
+    //Validar que el id y el token sean correctos
+    $id = isset($_GET['id']) ? $_GET['id'] : '';
+    $token = isset($_GET['token']) ? $_GET['token'] : '';
+
+    if($id == '' || $token == ''){
+      echo "Error! Petición errónea.";
+      exit;
+    } else {
+      $token_temp = hash_hmac('sha1', $id, KEY_TOKEN);
+      if($token != $token_temp){ //Validar que no haya sido alterado
+          echo "Error! Petición errónea.";
+          exit;
+      } else { //Si esta todo correcto se realiza la consulta
+        if ($id == "00001") {
+          $tabla = "comidas_tipicas";
+          $tabla_alt = "Comidas típicas";
+        } else if ($id == "00002") {
+          $tabla = "Distracciones";
+        } else if ($id == "00003") {
+          $tabla = "Hospedaje";
+        } else if ($id == "00004") {
+          $tabla = "Playas";
+        } else if ($id == "00005") {
+          $tabla = "Publicidad";
+        } else if ($id == "00006") {
+          $tabla = "Restaurantes";
+        } else if ($id == "00007") {
+          $tabla = "sitios_de_interes";
+          $tabla_alt = "Sitios de interes";
+        }
+
+        //Realizar la consulta
+        $text = "select * from " . strtolower($tabla);
+        $sql = $conexion->prepare($text);
+        //echo $text;
+        $sql->execute();
+        $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+      }
+    }
+?>
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nombre categoría</title>
+    <title><?php echo $tabla; ?></title>
     <!-- CSS Boostrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
@@ -16,7 +62,7 @@
       <header class="text-white header d-flex justify-content-center">
           <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-              <img src="../img/logo.png" alt="MANTA" width="120" onclick="goHome()" class="logo">
+              <img src="./src/img/logo.png" alt="MANTA" width="120" onclick="goHome()" class="logo">
               <div class="me-lg-auto"></div>
               <div class="text-end">
                 <!-- Facebook -->
@@ -38,9 +84,13 @@
       <!-- Background info -->
       <div class="background-image-container">
         <div class="background-item">
-          <img src="../img/bg-2.jpg" alt="">
+          <img src="./src/img/carrusel/manta.jpg" alt="">
             <div class="carousel-caption">
-              <h1>Nombre de categoría</h1>
+              <?php if($id == "00001" || $id == "00007"){ ?>
+                <h1><?php echo $tabla_alt; ?></h1>
+              <?php } else {?>
+                <h1><?php echo $tabla; ?></h1>
+              <?php } ?>
             </div>
         </div>
       </div>
@@ -50,13 +100,27 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="http://localhost/turismo_manta">Inicio</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Categoría</li>
+          <?php if($id == "00001" || $id == "00007"){ ?>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo $tabla_alt; ?></li>
+          <?php } else {?>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo $tabla; ?></li>
+          <?php } ?>
         </ol>
       </nav>
       <!-- Contenedor cartas -->
       <div class="container mb-2">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
           <!-- Card start -->
+          <?php foreach($resultado as $row){ ?>
+            <?php
+              $id_elemento = $row['id_' . strtolower($tabla)];
+              $nombre_elemento = $row['nombre_' . strtolower($tabla)];
+              if(strlen($nombre_elemento) > 21) {
+                $nombre_elemento = substr($nombre_elemento , 0, 18) . "...";
+              }
+              $descripcion_elemento = $row['descripcion_' . strtolower($tabla)];
+              $descripcion_elemento = substr($descripcion_elemento, 3, 83) . "...";
+            ?>
           <div class="col mb-5">
             <div class="card text-center shadow-0 card-entry">
               <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
@@ -67,77 +131,15 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="#">Nombre carta</a> 
+                  <a href="./detalles.php?id=<?php echo $id_elemento; ?>&categoria=<?php echo strtolower($tabla); ?>&token=<?php echo hash_hmac('sha1', $id_elemento, KEY_TOKEN); ?>"><?php echo $nombre_elemento; ?></a> 
                 </h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
+                <p class="card-text"><?php echo $descripcion_elemento; ?></p>
               </div>
-              <div class="card-footer">Categoría</div>
+              <div class="card-footer"><?php echo $tabla; ?></div>
             </div>
           </div>
-          <div class="col mb-5">
-            <div class="card text-center shadow-0 card-entry">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="#">Nombre carta</a> 
-                </h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-              </div>
-              <div class="card-footer">Categoría</div>
-            </div>
-          </div>
-          <div class="col mb-5">
-            <div class="card text-center shadow-0 card-entry">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="#">Nombre carta</a> 
-                </h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-              </div>
-              <div class="card-footer">Categoría</div>
-            </div>
-          </div>
-          <div class="col mb-5">
-            <div class="card text-center shadow-0 card-entry">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="#">Nombre carta</a> 
-                </h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-              </div>
-              <div class="card-footer">Categoría</div>
-            </div>
-          </div>
-          <!-- Cards end -->
+          <?php } ?>
+          <!-- Card end -->
         </div>
       </div>
       <!-- Footer -->
