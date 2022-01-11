@@ -25,11 +25,22 @@
         $sql->execute();
         $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         foreach($resultado as $row) {
+          $id_elemento = $row['id_' . strtolower($tabla)];
           $id_categoria = $row['id_categoria'];
           $titulo = $row['nombre_' . strtolower($tabla)];
           $dir_map = $row['direccion_' . strtolower($tabla)];
           $descripcion = $row['descripcion_' . strtolower($tabla)];
         }
+        //Cargar todas las imágenes de acuerdo al id de cada elemento
+        $imagenes = array();
+        $dir_imagenes = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/";
+        $dir = dir($dir_imagenes);
+        while(($archivo = $dir->read()) != false) { //Obtener solo las extensiones dadas
+          if(strpos($archivo, 'jpg') || strpos($archivo, 'jpeg') || strpos($archivo, 'png')) {
+            $imagenes[] = $dir_imagenes . $archivo;
+          }
+        }
+        $dir->close();
       }
     }
 ?>
@@ -92,37 +103,25 @@
               <div class="row justify-content-between">
                 <div class="col-12 mb-3">
                   <!-- Imagen general -->
-                  <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about imagen-general" width="500" height="500" role="img" focusable="false">
+                  <?php foreach($resultado as $row){ ?>
+                    <?php
+                      $id_elemento = $row['id_' . strtolower($tabla)];
+                      $img_principal = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/principal.jpg";
+                    ?>
+                  <img src="<?php echo $img_principal; ?>" alt="About" class="img-fluid mx-auto imagen-general" id="imagen-general" width="500" height="500" role="img" focusable="false">
+                  <?php } ?>
                 </div>
               </div>
             </div>
             <div class="container mb-5 imagenes-secundarias">
               <div class="row row-cols-3 row-cols-sm-4 row-cols-md-3 row-cols-lg-6 g-4">
                 <!-- Contenedor imagenes -->
+                <?php foreach($imagenes as $img){ ?>
                 <div class="col">
-                  <!-- Imagen 1 -->
-                  <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about" width="100" height="100" role="img" focusable="false">
+                  <!-- Imagen secundaria -->
+                  <img src="<?php echo $img; ?>" alt="About" class="img-fluid mx-auto" width="100" height="100" role="img" focusable="false" onclick="cambiarImg(this)">
                 </div>
-                <div class="col">
-                  <!-- Imagen 2 -->
-                  <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about" width="100" height="100" role="img" focusable="false">
-                </div>
-                <div class="col">
-                  <!-- Imagen 3 -->
-                  <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about" width="100" height="100" role="img" focusable="false">
-                </div>
-                <div class="col">
-                  <!-- Imagen 4 -->
-                  <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about" width="100" height="100" role="img" focusable="false">
-                </div>
-                <div class="col">
-                  <!-- Imagen 5 -->
-                  <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about" width="100" height="100" role="img" focusable="false">
-                </div>
-                <div class="col">
-                  <!-- Imagen 6 -->
-                  <img src="./src/img/about.jpg" alt="About" class="img-fluid mx-auto img-about" width="100" height="100" role="img" focusable="false">
-                </div>
+                <?php } ?>
               </div>
             </div>
             <h4 style="margin-left: 3.5%;">Ubicación</h4>
@@ -180,10 +179,13 @@
   }
   .imagen-general {
     width: 100%;
+    height: 420px;
+    object-fit: fill;
     border-radius: 15px;
   }
   .imagenes-secundarias > div > div > img {
     border-radius: 5px;
+    height: 50px;
   }
   .imagenes-secundarias > div > div > img:hover {
     cursor: pointer;
@@ -199,5 +201,9 @@
 <script>
   function goHome() {
     window.location.href = "http://localhost/turismo_manta/";
-  } 
+  }
+  function cambiarImg(smallImg){
+    var fullImg = document.getElementById("imagen-general");
+    fullImg.setAttribute("src", smallImg.src);
+  }
 </script>

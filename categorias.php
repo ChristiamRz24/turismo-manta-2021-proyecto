@@ -120,11 +120,12 @@
               }
               $descripcion_elemento = $row['descripcion_' . strtolower($tabla)];
               $descripcion_elemento = substr($descripcion_elemento, 3, 83) . "...";
+              $img_route = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/principal.jpg";
             ?>
           <div class="col mb-5">
             <div class="card text-center shadow-0 card-entry">
               <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
+                <img src="<?php echo $img_route; ?>" class="img-fluid" />
                 <a href="#!">
                   <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                 </a>
@@ -198,6 +199,9 @@
     margin-left: 9%;
     margin-bottom: 20px;
   }
+  .card {
+    height: 100%;
+  }
   .card-title > a {
     text-decoration-line: none
   }
@@ -211,6 +215,8 @@
   }
   .bg-image > img{
     width: 90%;
+    height: 155px;
+    object-fit: fill;
     border-radius: 15px;
     margin-top: 15px;
   }
