@@ -37,11 +37,37 @@ insert into playas values
 ('00012', '00004', 'Playa Las piñas', 'https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=es&amp;q=-1.0726301085372447,%20-80.90588135090672+(Playa%20San%20Lorenzo)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed', '<p>Esta hermosa playa manabita tiene forma de caleta y es un lugar ideal para practicar la natación, pesca deportiva y paseos en lanchas que exploran cautivantes grutas. Esta playa casi virgen, es favorita entre los surfistas.</p><p><b>Dirección: </b> Ubicada a pocos minutos del poblado de San Lorenzo</p>'),
 ('00013', '00004', 'Playa De Balsamaragua', 'https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=es&amp;q=+(Playa%20De%20Balsamaragua)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed', '<p>La Playa de Jaramijó, cuenta con 300 metros lineales, aproximadamente, con una dimensión de 3,22 Km. de ancho y 1,61 Km. de distancia desde la orilla, la calidad de agua es transparente y tranquila. Posee varios atractivos naturales y riqueza histórica, también cuenta con servicios básicos y fácil acceso.</p><p><b>Dirección: </b> Esta situada a un lado de la carretera del ingreso al Cantón Jaramijó</p>');
 
+insert into comidas_tipicas values
+('00001', '00001', 'El camotillo', 'null', '<p>El camotillo frito es el plato de moda en los restaurantes ubicados frente a las playas de Manta</p>'),
+('00002', '00001', 'Pescado Frito', 'null', '<p>El pescado frito es uno de los platos preferidos de quienes visitan los balnearios manabitas</p>'),
+('00003', '00001', 'Chicharón de Pescado', 'null', '<p>Puede ser de corvina, wahoo, picudo o dorado, acompañados de unos ricos y crujientes patacones</p>'),
+('00004', '00001', 'Viche', 'null', '<p>Es conocida como la sopa de los dioses. Se la elabora a base de marisco junto a verduras propias de la costa</p>'),
+('00005', '00001', 'Cazuela de Marisco', 'null', '<p>Se compone de camarones, pulpo, pescado, calamares, mejillones, plátanos y demás ingredientes</p>'),
+('00006', '00001', 'Encebollado', 'null', '<p>Uno de los placeres más grandes que uno tiene al vivir en Manta es la posibilidad de desayunar un encebollado</p>'),
+('00007', '00001', 'Ceviche de Camarón', 'null', '<p>Es uno de los principales platos de la comida ecuatoriana</p>'),
+('00008', '00001', 'Ceviche Mixto', 'null', '<p>El arroz es muy tradicional en las cocinas de los manabitas además de ser muy versátil a la hora de cocinarlo</p>'),
+('00009', '00001', 'Camarones Apanados', 'null', '<p>Son otra de las delicias de la comida típica manabita. Su preparación es muy fácil y su sabor es sensacional</p>'),
+('00010', '00001', 'Arroz Marinero', 'null', '<p>Contiene con arroz, camarones, calamares, conchas, mejillones, ajo, cebolla, pimiento, cilantro y condimentos/especias</p>'),
+('00011', '00001', 'Arroz con Camarones', 'null', '<p>Es un plato que se sirve frío, con una porción de limón, chifles y un vaso de cerveza</p>'),
+('00012', '00001', 'Plato con Mariscos', 'null', '<p>Los camarones, pescado, conchas y la frescura del mar son otra de las delicias de la comida típica mantense</p>'),
+('00013', '00001', 'Corviches', 'null', '<p>El corviche es una masa elaborada con plátanos, especias, maní y relleno de pescado</p>'),
+('00014', '00001', 'Empanadas de Verde', 'null', '<p>Se preparan fritas, y son ideales para disfrutar con una taza de café para el desayuno o por la tarde</p>'),
+('00015', '00001', 'Plato con Mariscos', 'null', '<p>El platano verde vuelve como ingrediente principal en forma de bola, acompañado con una taza de café</p>'),
+('00016', '00001', 'Huevos Mollos', 'null', '<p>Este dulce lógicamente lo han comido muchas personas, pues es un postre muy famoso en Manabí</p>'),
+('00017', '00001', 'Alfajores', 'null', '<p>Los alfajores son dos galletas con manjar en medio, si se prefiere se los puede comer sin majar</p>'),
+('00018', '00001', 'Rompope', 'null', '<p>Es una bebida suave para tomar en las reuniones navideñas o para dar de obsequio a las amistades</p>');
 
-
-
-
-
+insert into restaurantes values
+('00001', '00006', 'Anthony Burguer', 'https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=es&amp;q=Calle%20108,%20Manta%20130203+(Anthony%20Burguer)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed', '<p>Creemos en el emprendimiento. ANTHONY BURGUER se caracteriza por tener platos de excelente calidad y a precios accesibles. 100% originales a diario mejoramos para nuestros clientes. No identifica dar más por menos.</p><p><b>Dirección:</b> Calle 108 avenida 108, Manta 130203, Ecuador</p><p><b>Teléfono:</b> 0981529377</p><h5>Menú:</h5>'),
+('00002', '00006', 'Picantería El Marino', 'null', '<p><b>Dirección:</b> Malecón de Tarqui y Calle. 110 102, Manta 130203</p><p><b>Teléfono:</b> 0960853173</p><h5>Menú:</h5>'),
+('00003', '00006', 'Parrillada La Hueca De Reyes', 'null', '<p>Estimados clientes <span class="text-primary">#lahuecadereyes</span> les ofrece variedades de asados chuletas costillas chuletas carné ubre pollo pescado longanizas</p><p><b>Dirección:</b> AV. 10 entre calle 15 y 14, 130207, Manta, Ecuador</p><p><b>Teléfono:</b> 052626658</p><h5>Menú:</h5>'),
+('00004', '00006', 'Ceviches Y Encebollados "Donde Pico"', 'null', '<p>Estamos atendiendo todos los días con los más ricos ceviches de pinchagua, Albacora, conchas, camarón y los deliciosos encebollados.</p><p><b>Dirección:</b> Calle 114 y Avenida 113 Manta-Ecuador</p><p><b>Atención:</b> Lunes a Domingo</p><h5>Menú:</h5>'),
+('00005', '00006', 'Cevichería 《Juventud Italiana》', 'null', '<p><b>Dirección:</b> Av. 24, Manta, Ecuador</p><p><b>Atención:</b> Miércoles  a Domingo</p><h5>Menú:</h5>'),
+('00006', '00006', 'MAVI - Café & Grill', 'null', '<p><b>Dirección:</b> Calle Universidad 7, Manta, Ecuador</p><p><b>Teléfono: </b> 0999422854</p><p><b>Atención:</b> Lunes a Domingo</p><p><b>Horario:</b> 07:30 - 00:00</p><h5>Menú:</h5>'),
+('00007', '00006', 'Salchichería MOLINA', 'null', '<p><b>Opciones de servicio:</b></p><ul><li>Dine-in</li><li>Para llevar</li><li>Entrega a domicilio</li></ul><p><b>Dirección:</b> Manta</p><p><b>Atención:</b> Sábados y Domingos</p><p><b>Horario:</b> 8a.m. a 3a.m.</p><p><b>Teléfono:</b> 0939529497</p><h5>Menú:</h5>'),
+('00008', '00006', 'Iche Cocina Manabita', 'null', '<p>Adéntrate en nuestro espacio, lleno de la sencillez y riqueza de la comida manabita, en cada rincón y en cada receta.</p><p><b>Dirección:</b> Plaza La Quadra local 40-41 Vía Barbasquillo, C. 32, Manta 130214, Ecuador</p><p><b>Teléfono:</b> 0968415060</p><p><b>Atención:</b> Lunes a Domingo</p><p><b>Horarios:</b> 8:00 - 21:00</p>'),
+('00009', '00006', 'Cevichería De Jipijapa "Los Aveiga" En Manta', 'null', '<p>Te esperamos Ven y deléitate con las delicias de Jipijapa Ceviche de pescado con mani y aguacate; Ceviche de camaron, pulpoMixtos, Seco de chivo, Greñoso.</p><p><b>Dirección:</b> Av. Interbarrial 215 y Calle 10 (frente a Ferreteria Cuenca)</p><p><b>Teléfono:</b> 0999619957</p>'),
+('00010', '00006', 'Martinica', 'null', '<p>Mariscos | Pescados | Carnes</p><p><b>Dirección:</b> Cdla. Umiña #2, Mz I, Lote 1, Vía a Barbasquillo</p><p><b>Teléfonos:</b> 052 669035 / 052 610727 / 052 679045</p><p><b>Atención:</b> Martes a Domingos</p><p><b>Horario:</b> 12:30 - 23:00</p><p><b>Email:</b> info@martinica.com.ec</p>');
 
 
 

@@ -49,7 +49,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $tabla; ?></title>
+    <?php if ($id == "00001" || $id == "00007") { ?>
+      <title><?php echo $tabla_alt; ?></title>
+    <?php } else { ?>
+      <title><?php echo $tabla; ?></title>
+    <?php } ?>
     <!-- CSS Boostrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
@@ -119,26 +123,41 @@
                 $nombre_elemento = substr($nombre_elemento , 0, 18) . "...";
               }
               $descripcion_elemento = $row['descripcion_' . strtolower($tabla)];
-              $descripcion_elemento = substr($descripcion_elemento, 3, 83) . "...";
+              if ($id != "00001") {
+                $descripcion_elemento = substr($descripcion_elemento, 3, 83) . "...";
+                $desc_short = substr($descripcion_elemento, 3, 4);
+                //Formatear entradas sin descripción
+                if ($desc_short == "Dire" || $desc_short == "imad" || $desc_short == "Opci") {
+                  $descripcion_elemento = "Si descripción...";
+                }
+              }
               $img_route = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/principal.jpg";
             ?>
-          <div class="col mb-5">
-            <div class="card text-center shadow-0 card-entry">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="<?php echo $img_route; ?>" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                </a>
+            <div class="col mb-5">
+              <div class="card text-center shadow-0 card-entry">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                  <img src="<?php echo $img_route; ?>" class="img-fluid" />
+                  <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                  <?php if ($id == "00001") { ?>
+                    <h5 href=""><?php echo $nombre_elemento; ?></h5>
+                  <?php } else { ?>
+                    <a href="./detalles.php?id=<?php echo $id_elemento; ?>&categoria=<?php echo strtolower($tabla); ?>&token=<?php echo hash_hmac('sha1', $id_elemento, KEY_TOKEN); ?>"><?php echo $nombre_elemento; ?></a>
+                  <?php } ?>
+                  </h5>
+                  <p class="card-text"><?php echo $descripcion_elemento; ?></p>
+                </div>
+                <?php if ($id == "00001" || $id == "00007") { ?>
+                  <div class="card-footer"><?php echo $tabla_alt; ?></div>
+                <?php } else { ?>
+                  <div class="card-footer"><?php echo $tabla; ?></div>
+                <?php } ?>
               </div>
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="./detalles.php?id=<?php echo $id_elemento; ?>&categoria=<?php echo strtolower($tabla); ?>&token=<?php echo hash_hmac('sha1', $id_elemento, KEY_TOKEN); ?>"><?php echo $nombre_elemento; ?></a> 
-                </h5>
-                <p class="card-text"><?php echo $descripcion_elemento; ?></p>
-              </div>
-              <div class="card-footer"><?php echo $tabla; ?></div>
             </div>
-          </div>
           <?php } ?>
           <!-- Card end -->
         </div>
@@ -203,7 +222,11 @@
     height: 100%;
   }
   .card-title > a {
+    color: #000 !important;
     text-decoration-line: none
+  }
+  .card-title > a:hover {
+    color: #5a5a5a !important;
   }
   .card-entry {
     border-radius: 15px;

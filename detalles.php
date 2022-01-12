@@ -33,7 +33,11 @@
         }
         //Cargar todas las imágenes de acuerdo al id de cada elemento
         $imagenes = array();
-        $dir_imagenes = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/";
+        if ($id = "00001") {
+          $dir_imagenes = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/";
+        } else {
+          $dir_imagenes = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/";
+        }
         $dir = dir($dir_imagenes);
         while(($archivo = $dir->read()) != false) { //Obtener solo las extensiones dadas
           if(strpos($archivo, 'jpg') || strpos($archivo, 'jpeg') || strpos($archivo, 'png')) {
@@ -116,11 +120,13 @@
             <div class="container mb-5 imagenes-secundarias">
               <div class="row row-cols-3 row-cols-sm-4 row-cols-md-3 row-cols-lg-6 g-4">
                 <!-- Contenedor imagenes -->
-                <?php foreach($imagenes as $img){ ?>
-                <div class="col">
-                  <!-- Imagen secundaria -->
-                  <img src="<?php echo $img; ?>" alt="About" class="img-fluid mx-auto" width="100" height="100" role="img" focusable="false" onclick="cambiarImg(this)">
-                </div>
+                <?php if ($id != "00001") { ?> <!-- Cargar impagenes si el id es diferente de 00001 -->
+                  <?php foreach($imagenes as $img) { ?>
+                  <div class="col">
+                    <!-- Imagen secundaria -->
+                    <img src="<?php echo $img; ?>" alt="About" class="img-fluid mx-auto" width="100" height="100" role="img" focusable="false" onclick="cambiarImg(this)">
+                  </div>
+                  <?php } ?>
                 <?php } ?>
               </div>
             </div>
@@ -139,6 +145,29 @@
             <h5>Descripción:</h5>
             <!-- Text description -->
             <?php echo $descripcion; ?>
+            <?php if ($id == "00001") { ?>
+              <div class="container carta-restaurante">
+                <div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
+                  <!-- Contenedor imagenes -->
+                  <?php foreach($imagenes as $img) { ?>
+                    <?php 
+                      preg_match("/([^\/\']+)(\.\w+)/", $img, $title); //Obtener titulo de las imagenes
+                    ?>
+                    <div class="col">
+                      <div class="card">
+                        <!-- ./src/img/restaurantes/00001/2.jpg -->
+                        <img src="<?php echo $img; ?>" class="img-plato"/>
+                        <div class="d-flex flex-column h-100 body-plato">
+                        <h5 class="title-plato"><?php echo substr($title[0], 5, -4); ?></h5>
+                          <!-- <h5 class="title-plato">Hamburguesa extra grande</h5> -->
+                          <p class="desc-plato"><?php echo substr($title[0], 0, 5); ?></p>
+                        </div>
+                      </div>
+                    </div>
+                  <?php } ?>
+                </div>
+              </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -154,6 +183,28 @@
   </body>
 </html>
 <style>
+    .col {
+    padding: 0px;
+  }
+  .card {
+    height: 100%;
+  }
+  .img-plato {
+    width: 100%;
+    height: 150px;
+    margin: .8rem 0;
+    padding: 0 0.8rem;
+  }
+  .body-plato {
+    justify-content: space-evenly;
+  }
+  .title-plato {
+    font-size: 15px;
+  }
+  .title-plato,
+  .desc-plato {
+    text-align: center;
+  }
   main {
     background-color: #f6f6f6;
   }
