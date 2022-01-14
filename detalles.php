@@ -8,7 +8,7 @@
     $id = isset($_GET['id']) ? $_GET['id'] : '';
     $tabla = isset($_GET['categoria']) ? $_GET['categoria'] : '';
     $token = isset($_GET['token']) ? $_GET['token'] : '';
-
+  
     if($id == '' || $token == ''){
       echo "Error! Petición errónea.";
       exit;
@@ -33,8 +33,17 @@
         }
         //Cargar todas las imágenes de acuerdo al id de cada elemento
         $imagenes = array();
-        if ($id = "00001") {
+        if ($tabla != "restaurantes" || $tabla != "sitios_de_interes") {
           $dir_imagenes = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/";
+          $dir_imagenes_alt = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/";
+          ///////////////////////////
+          $dir = dir($dir_imagenes_alt);
+          while(($archivo_alt = $dir->read()) != false) { //Obtener solo las extensiones dadas
+            if(strpos($archivo_alt, 'jpg') || strpos($archivo_alt, 'jpeg') || strpos($archivo_alt, 'png')) {
+              $imagenes_alt[] = $dir_imagenes_alt . $archivo_alt;
+            }
+          }
+          ///////////////////////////
         } else {
           $dir_imagenes = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/";
         }
@@ -46,6 +55,9 @@
         }
         $dir->close();
       }
+       if($tabla == "sitios_de_interes") {
+        $tabla_alt = "Sitios de interes";
+      }
     }
 ?>
 <!doctype html>
@@ -54,6 +66,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $titulo; ?></title>
+    <link rel="shortcut icon" href="./src/img/favicon/favicon.png">
     <!-- CSS Boostrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
@@ -64,37 +77,43 @@
     <main>
       <!-- Header -->
       <header class="text-white header d-flex justify-content-center bg-secondary">
-          <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-              <img src="./src/img/logo.png" alt="MANTA" width="120" onclick="goHome()" class="logo">
-              <div class="me-lg-auto"></div>
-              <div class="text-end">
-                <!-- Facebook -->
-                <a class="btn m-1" href="#!" role="button">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-                <!-- Twitter -->
-                <a class="btn m-1" href="#!" role="button">
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <!-- Instagram -->
-                <a class="btn m-1" href="#!" role="button">
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </div>
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <img src="./src/img/logo.png" alt="MANTA" width="120" onclick="goHome()" class="logo">
+            <div class="me-lg-auto"></div>
+            <div class="text-end">
+              <!-- Facebook -->
+              <a class="btn m-1" href="https://www.facebook.com/MunicipioManta/" role="button">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <!-- Twitter -->
+              <a class="btn m-1" href="https://twitter.com/Municipio_Manta?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" role="button">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <!-- Instagram -->
+              <a class="btn m-1" href="https://www.instagram.com/municipiomanta/?hl=es" role="button">
+                <i class="fab fa-instagram"></i>
+              </a>
             </div>
           </div>
-        </header>
+        </div>
+      </header>
       <!-- Divider -->
       <div class="mb-5"></div>
       <!-- Breadcums -->
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="http://localhost/turismo_manta">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="/turismo_manta">Inicio</a></li>
           <li class="breadcrumb-item">
-            <a href="./categorias.php?id=<?php echo $id_categoria; ?>&token=<?php echo hash_hmac('sha1', $id_categoria, KEY_TOKEN); ?>">
-              <?php echo ucwords($tabla); ?>
-            </a>
+            <?php if($tabla == "sitios_de_interes") { ?>
+              <a href="./categorias.php?id=<?php echo $id_categoria; ?>&token=<?php echo hash_hmac('sha1', $id_categoria, KEY_TOKEN); ?>">
+                <?php echo $tabla_alt; ?>
+              </a>
+            <?php } else { ?>
+              <a href="./categorias.php?id=<?php echo $id_categoria; ?>&token=<?php echo hash_hmac('sha1', $id_categoria, KEY_TOKEN); ?>">
+                <?php echo ucwords($tabla); ?>
+              </a>
+            <?php } ?>
           </li>
           <li class="breadcrumb-item active" aria-current="page"><?php echo $titulo; ?></li>
         </ol>
@@ -112,16 +131,16 @@
                       $id_elemento = $row['id_' . strtolower($tabla)];
                       $img_principal = "./src/img/" . strtolower($tabla) . "/" . $id_elemento . "/otras/principal.jpg";
                     ?>
-                  <img src="<?php echo $img_principal; ?>" alt="About" class="img-fluid mx-auto imagen-general" id="imagen-general" width="500" height="500" role="img" focusable="false">
+                    <img src="<?php echo $img_principal; ?>" alt="About" class="img-fluid mx-auto imagen-general" id="imagen-general" width="500" height="500" role="img" focusable="false">
                   <?php } ?>
                 </div>
               </div>
             </div>
             <div class="container mb-5 imagenes-secundarias">
-              <div class="row row-cols-3 row-cols-sm-4 row-cols-md-3 row-cols-lg-6 g-4">
+              <div class="row row-cols-3 row-cols-sm-4 row-cols-md-3 row-cols-lg-5 g-4">
                 <!-- Contenedor imagenes -->
-                <?php if ($id != "00001") { ?> <!-- Cargar impagenes si el id es diferente de 00001 -->
-                  <?php foreach($imagenes as $img) { ?>
+                <?php if ($tabla == "playas" || $tabla == "sitios_de_interes" || $tabla == "hospedaje") { ?>
+                  <?php foreach($imagenes_alt as $img) { ?>
                   <div class="col">
                     <!-- Imagen secundaria -->
                     <img src="<?php echo $img; ?>" alt="About" class="img-fluid mx-auto" width="100" height="100" role="img" focusable="false" onclick="cambiarImg(this)">
@@ -239,8 +258,13 @@
     object-fit: fill;
     border-radius: 15px;
   }
+  .imagenes-secundarias {
+    width: 100%;
+    margin: 0 2%;
+  }
   .imagenes-secundarias > div > div > img {
     border-radius: 5px;
+    margin-left: auto;
     height: 50px;
   }
   .imagenes-secundarias > div > div > img:hover {
@@ -256,7 +280,7 @@
 </style>
 <script>
   function goHome() {
-    window.location.href = "http://localhost/turismo_manta/";
+    window.location.href = "/turismo_manta/";
   }
   function cambiarImg(smallImg){
     var fullImg = document.getElementById("imagen-general");

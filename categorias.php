@@ -56,6 +56,7 @@
     <?php } else { ?>
       <title><?php echo $tabla; ?></title>
     <?php } ?>
+    <link rel="shortcut icon" href="./src/img/favicon/favicon.png">
     <!-- CSS Boostrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
@@ -76,15 +77,15 @@
                 <div class="me-lg-auto"></div>
                 <div class="text-end">
                   <!-- Facebook -->
-                  <a class="btn m-1" href="#!" role="button">
+                  <a class="btn m-1" href="https://www.facebook.com/MunicipioManta/" role="button">
                     <i class="fab fa-facebook-f"></i>
                   </a>
                   <!-- Twitter -->
-                  <a class="btn m-1" href="#!" role="button">
+                  <a class="btn m-1" href="https://twitter.com/Municipio_Manta?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" role="button">
                     <i class="fab fa-twitter"></i>
                   </a>
                   <!-- Instagram -->
-                  <a class="btn m-1" href="#!" role="button">
+                  <a class="btn m-1" href="https://www.instagram.com/municipiomanta/?hl=es" role="button">
                     <i class="fab fa-instagram"></i>
                   </a>
                 </div>
@@ -226,6 +227,10 @@
 </div>
 <!-- Modal End -->
 <style>
+  .card-footer {
+    border-radius: 0 0 15px 15px !important;
+    background-color: #fffaf5 !important;
+  }
   .card-body > p > b {
     color: #6c757d;
   }

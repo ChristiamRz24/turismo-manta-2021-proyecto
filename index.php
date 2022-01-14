@@ -8,6 +8,13 @@
     $sql = $conexion->prepare("select id_categoria, nombre_categoria from categoria order by id_categoria");
     $sql->execute();
     $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+    //Consulta para las cartas
+    $sql2 = $conexion->prepare("select id_hospedaje, nombre_hospedaje, descripcion_hospedaje, nombre_categoria
+    from categoria inner join hospedaje on hospedaje.id_categoria = categoria.id_categoria 
+    where id_hospedaje = '00001' or id_hospedaje = '00002' or id_hospedaje = '00006' or id_hospedaje = '00008'
+    order by id_hospedaje limit 4;");
+    $sql2->execute();
+    $resultado2 = $sql2->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,6 +22,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Turismo MANTA</title>
+    <link rel="shortcut icon" href="./src/img/favicon/favicon.png">
     <!-- CSS Boostrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
@@ -42,15 +50,15 @@
               </ul>
               <div class="text-end">
                 <!-- Facebook -->
-                <a class="btn m-1" href="#!" role="button">
+                <a class="btn m-1" href="https://www.facebook.com/MunicipioManta/" role="button">
                   <i class="fab fa-facebook-f"></i>
                 </a>
                 <!-- Twitter -->
-                <a class="btn m-1" href="#!" role="button">
+                <a class="btn m-1" href="https://twitter.com/Municipio_Manta?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" role="button">
                   <i class="fab fa-twitter"></i>
                 </a>
                 <!-- Instagram -->
-                <a class="btn m-1" href="#!" role="button">
+                <a class="btn m-1" href="https://www.instagram.com/municipiomanta/?hl=es" role="button">
                   <i class="fab fa-instagram"></i>
                 </a>
               </div>
@@ -69,8 +77,8 @@
             <img src="./src/img/carrusel/muelle.jpg" alt="">
             <div class="container">
               <div class="carousel-caption text-start">
-                <h1>Example headline.</h1>
-                <p>Some representative placeholder content for the first slide of the carousel.</p>
+                <h1>Grandes actividades de exportación e importación</h1>
+                <p>Manta cuenta con el primer puerto turístico, marítimo y pesquero del Ecuador</p>
               </div>
             </div>
           </div>
@@ -78,8 +86,8 @@
             <img src="./src/img/carrusel/playa.jpg" alt="">
             <div class="container">
               <div class="carousel-caption">
-                <h1>Another example headline.</h1>
-                <p>Some representative placeholder content for the second slide of the carousel.</p>
+                <h1>Turismo seguro en los 13 balnearios de Manta</h1>
+                <p>La Policía Nacional brinda seguridad las 24 horas al día mediante patrullaje preventivo</p>
               </div>
             </div>
           </div>
@@ -87,8 +95,8 @@
             <img src="./src/img/carrusel/manta.jpg" alt="">
             <div class="container">
               <div class="carousel-caption text-end">
-                <h1>One more for good measure.</h1>
-                <p>Some representative placeholder content for the third slide of this carousel.</p>
+                <h1>También se la conoce como San Pablo de Manta</h1>
+                <p>Disfruta y vive la mejor experiencia de la naturaleza, playas, deportes de aventura y su vida nocturna</p>
               </div>
             </div>
           </div>
@@ -153,7 +161,7 @@
               ?>
               <div class="col">
                 <div class="card card-category">
-                  <img src="<?php echo $src; ?>">
+                  <img src="<?php echo $src; ?>" class="image-entry">
                   <a
                     class="txt-hidden" id-categoria="<?php echo $id_categoria; ?>"
                     href="./categorias.php?id=<?php echo $id_categoria; ?>&token=<?php echo hash_hmac('sha1', $id_categoria, KEY_TOKEN); ?>"
@@ -180,90 +188,39 @@
           </div>
         </div>
         <!-- Entradas destacadas -->
-        <div class="container mb-5">
+        <div class="container mb-4">
           <h1 class="mb-4" id="entradas-destacadas">Entradas destacadas</h1>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             <!-- Card start -->
-            <div class="col mb-5">
-              <div class="card text-center shadow-0 card-entry">
-                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
-                  <a href="#!">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                  </a>
+            <?php foreach($resultado2 as $row2){ ?>
+              <?php
+                $id_card = $row2['id_hospedaje'];
+                $Category_card = $row2['nombre_categoria'];
+                $nombre_card = $row2['nombre_hospedaje'];
+                if(strlen($nombre_card) > 21) {
+                  $nombre_card = substr($nombre_card , 0, 18) . "...";
+                }
+                $description_card = substr(($row2['descripcion_hospedaje']), 3, 83) . "...";
+                $img_route = "./src/img/" . strtolower($Category_card) . "/" . $id_card . "/otras/principal.jpg";
+              ?>
+              <div class="col mb-5">
+                <div class="card card-entry text-center shadow-0">
+                  <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                    <img src="<?php echo $img_route; ?>" class="img-fluid img-entry" />
+                    <a href="#!">
+                      <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="./detalles.php?id=<?php echo $id_card; ?>&categoria=<?php echo strtolower($Category_card); ?>&token=<?php echo hash_hmac('sha1', $id_card, KEY_TOKEN); ?>"><?php echo $nombre_card; ?></a> 
+                    </h5>
+                    <p class="card-text"><?php echo $description_card; ?></p>
+                  </div>
+                  <div class="card-footer"><?php echo $Category_card; ?></div>
                 </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="#">Nombre carta</a> 
-                  </h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </p>
-                </div>
-                <div class="card-footer">Categoría</div>
               </div>
-            </div>
-            <div class="col mb-5">
-              <div class="card text-center shadow-0 card-entry">
-                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
-                  <a href="#!">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                  </a>
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="#">Nombre carta</a> 
-                  </h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </p>
-                </div>
-                <div class="card-footer">Categoría</div>
-              </div>
-            </div>
-            <div class="col mb-5">
-              <div class="card text-center shadow-0 card-entry">
-                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
-                  <a href="#!">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                  </a>
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="#">Nombre carta</a> 
-                  </h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </p>
-                </div>
-                <div class="card-footer">Categoría</div>
-              </div>
-            </div>
-            <div class="col mb-5">
-              <div class="card text-center shadow-0 card-entry">
-                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
-                  <a href="#!">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
-                  </a>
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="#">Nombre carta</a> 
-                  </h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the
-                    card's content.
-                  </p>
-                </div>
-                <div class="card-footer">Categoría</div>
-              </div>
-            </div>
+            <?php } ?>
             <!-- Cards end -->
           </div>
         </div>
@@ -282,6 +239,16 @@
   </body>
 </html>
 <style>
+  .card-footer {
+    border-radius: 0 0 15px 15px !important;
+    background-color: #fffaf5 !important;
+  }
+  .img-entry {
+    height: 155px !important;
+  }
+  .card-title > a {
+    color: #000 !important;
+  }
   main, .card-category {
     background-color: #f6f6f6;
   }
@@ -355,6 +322,7 @@
   }
   .card-entry {
     border-radius: 15px;
+    height: 100%;
   }
   .card-entry:hover {
     border-color: #fff !important;
@@ -413,9 +381,3 @@
     }
   }
 </style>
-<script>
-  function verCategoria(img) {
-    var id_categoria = img.getAttribute("id-categoria");
-    alert("Categoría: " + id_categoria);
-  }
-</script>
