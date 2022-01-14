@@ -145,8 +145,8 @@
             <h5>Descripción:</h5>
             <!-- Text description -->
             <?php echo $descripcion; ?>
-            <?php if ($id == "00001") { ?>
-              <div class="container carta-restaurante">
+            <?php if ($tabla == "restaurantes") { ?>
+              <div class="container carta-restaurante mb-4">
                 <div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3">
                   <!-- Contenedor imagenes -->
                   <?php foreach($imagenes as $img) { ?>
@@ -155,12 +155,15 @@
                     ?>
                     <div class="col">
                       <div class="card">
-                        <!-- ./src/img/restaurantes/00001/2.jpg -->
-                        <img src="<?php echo $img; ?>" class="img-plato"/>
-                        <div class="d-flex flex-column h-100 body-plato">
-                        <h5 class="title-plato"><?php echo substr($title[0], 5, -4); ?></h5>
-                          <!-- <h5 class="title-plato">Hamburguesa extra grande</h5> -->
-                          <p class="desc-plato"><?php echo substr($title[0], 0, 5); ?></p>
+                        <div>
+                          <img src="<?php echo $img; ?>" class="img-plato"/>
+                        </div>
+                        <div class="w-100 h-100 d-flex justify-content-center">
+                          <div class="d-flex flex-column h-100 body-plato">
+                          <h5 class="title-plato"><?php echo substr($title[0], 5, -4); ?></h5>
+                            <!-- <h5 class="title-plato">Hamburguesa extra grande</h5> -->
+                            <p class="desc-plato"><?php echo substr($title[0], 0, 5); ?></p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -188,6 +191,7 @@
   }
   .card {
     height: 100%;
+    border-radius: 0px !important;
   }
   .img-plato {
     width: 100%;
@@ -196,6 +200,7 @@
     padding: 0 0.8rem;
   }
   .body-plato {
+    width: 89%;
     justify-content: space-evenly;
   }
   .title-plato {
